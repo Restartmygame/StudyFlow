@@ -1,39 +1,64 @@
-import { Tarefa, TarefaApi } from '../models/Tarefa';
+import { DadosTarefa, Tarefa } from '../models/Tarefa';
 
-const URL_BASE = 'https://jsonplaceholder.typicode.com';
+const URL_API = 'http://localhost:5288/api/tarefas';
+
+async function fazerRequisicao(
+    url: string,
+    opcoes?: RequestInit
+): Promise<Response> {
+    try {
+        const resposta = await fetch(url, opcoes);
+
+        if (!resposta.ok) {
+            throw new Error(`A API respondeu com o erro ${resposta.status}.`);
+        }
+
+        return resposta;
+    } catch (erro) {
+        if (erro instanceof TypeError) {
+            throw new Error(
+                'Não foi possível acessar a API. Confira se ela está em execução.'
+            );
+        }
+
+        throw erro;
+    }
+}
 
 export async function buscarTarefas(): Promise<Tarefa[]> {
-    let resposta: Response;
+    const resposta = await fazerRequisicao(URL_API);
+    const tarefas: Tarefa[] = await resposta.json();
 
-    try {
-        resposta = await fetch(`${URL_BASE}/todos`);
-    } catch {
-        throw new Error(
-            'Não foi possível se comunicar com a Web API. Verifique sua conexão.'
-        );
-    }
+    return tarefas;
+}
 
-    if (!resposta.ok) {
-        throw new Error(`O servidor respondeu com o erro ${resposta.status}.`);
-    }
+export async function cadastrarTarefa(dados: DadosTarefa): Promise<void> {
+    await fazerRequisicao(URL_API, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(dados),
+    });
+}
 
-    let dados: TarefaApi[];
+export async function atualizarTarefa(tarefa: Tarefa): Promise<void> {
+    await fazerRequisicao(`${URL_API}/${tarefa.id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            titulo: tarefa.titulo,
+            disciplina: tarefa.disciplina,
+            dataEntrega: tarefa.dataEntrega,
+            status: tarefa.status,
+        }),
+    });
+}
 
-    try {
-        // transforma a resposta da API em um objeto que o aplicativo consegue usar
-        dados = await resposta.json();
-    } catch {
-        throw new Error('A Web API retornou um JSON inválido.');
-    }
-
-    if (!Array.isArray(dados)) {
-        throw new Error('A Web API retornou os dados em um formato inesperado.');
-    }
-
-    return dados.slice(0, 12).map((item) => ({
-        id: item.id,
-        titulo: item.title,
-        usuarioId: item.userId,
-        concluida: item.completed,
-    }));
+export async function excluirTarefa(id: number): Promise<void> {
+    await fazerRequisicao(`${URL_API}/${id}`, {
+        method: 'DELETE',
+    });
 }

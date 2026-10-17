@@ -1,13 +1,15 @@
+export type StatusTarefa = 'Pendente' | 'Concluida';
+
 export type Tarefa = {
     id: number;
     titulo: string;
-    usuarioId: number;
-    concluida: boolean;
+    disciplina: string;
+    dataEntrega: string;
+    status: StatusTarefa;
 };
 
-export type TarefaApi = {
-    userId: number;
-    id: number;
-    title: string;
-    completed: boolean;
+export type DadosTarefa = {
+    titulo: string;
+    disciplina: string;
+    dataEntrega: string;
 };

@@ -15,7 +15,9 @@ export default function Inicio({
     erro,
     onAbrirTarefas,
 }: InicioProps) {
-    const concluidas = tarefas.filter((tarefa) => tarefa.concluida).length;
+    const concluidas = tarefas.filter(
+        (tarefa) => tarefa.status === 'Concluida'
+    ).length;
     const pendentes = tarefas.length - concluidas;
 
     return (
@@ -26,11 +28,11 @@ export default function Inicio({
             {carregando ? (
                 <View style={styles.cardMensagem}>
                     <ActivityIndicator size="large" color="#3157d5" />
-                    <Text style={styles.textoMensagem}>Buscando tarefas na Web API...</Text>
+                    <Text style={styles.textoMensagem}>Buscando tarefas na API...</Text>
                 </View>
             ) : erro !== '' ? (
                 <View style={styles.cardErro}>
-                    <Text style={styles.tituloErro}>Dados indisponíveis</Text>
+                    <Text style={styles.tituloErro}>API indisponível</Text>
                     <Text style={styles.textoErro}>{erro}</Text>
                 </View>
             ) : (
@@ -48,16 +50,13 @@ export default function Inicio({
             )}
 
             <View style={styles.cardApresentacao}>
-                <Text style={styles.tituloCard}>Tarefas da API</Text>
+                <Text style={styles.tituloCard}>StudyFlowAPI</Text>
                 <Text style={styles.texto}>
-                    Nesta versão, o StudyFlow consulta tarefas de uma Web API e
-                    mostra os dados recebidos em formato JSON.
+                    As tarefas são salvas em uma Web API própria, com operações de
+                    cadastro, consulta, edição e exclusão.
                 </Text>
 
-                <Botao
-                    titulo="Ver tarefas"
-                    onPress={onAbrirTarefas}
-                />
+                <Botao titulo="Ver tarefas" onPress={onAbrirTarefas} />
             </View>
         </ScrollView>
     );
