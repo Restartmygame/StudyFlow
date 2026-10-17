@@ -50,12 +50,7 @@ export default function Inicio({
             )}
 
             <View style={styles.cardApresentacao}>
-                <Text style={styles.tituloCard}>StudyFlowAPI</Text>
-                <Text style={styles.texto}>
-                    As tarefas são salvas em uma Web API própria, com operações de
-                    cadastro, consulta, edição e exclusão.
-                </Text>
-
+                <Text style={styles.tituloCard}>Organize suas tarefas</Text>
                 <Botao titulo="Ver tarefas" onPress={onAbrirTarefas} />
             </View>
         </ScrollView>
@@ -162,11 +157,5 @@ const styles = StyleSheet.create({
         fontSize: 19,
         fontWeight: 'bold',
         marginBottom: 10,
-    },
-
-    texto: {
-        color: '#4d5872',
-        fontSize: 16,
-        lineHeight: 23,
     },
 });
