@@ -5,8 +5,9 @@
 - **Nome do projeto:** StudyFlow
 - **Disciplina:** Programação Mobile
 - **Professor:** Lenon Fachiano Silva
-- **Integrante(s):** preencher antes da entrega
+- **Integrante:** Diego Santos Farias
 - **Checkpoint:** 02
+- **Data de entrega:** 20/10/2026
 
 ## Objetivo da aplicação
 
