@@ -3,34 +3,36 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native';
 export default function Sobre() {
     return (
         <ScrollView contentContainerStyle={styles.container}>
-            <Text style={styles.titulo}>Sobre o projeto</Text>
-            <Text style={styles.subtitulo}>Projeto Integrador - Checkpoint 02</Text>
+            <Text style={styles.titulo}>Sobre o StudyFlow</Text>
+            <Text style={styles.subtitulo}>Projeto Integrador de Programação Mobile</Text>
 
             <View style={styles.card}>
-                <Text style={styles.tituloCard}>Evolução do StudyFlow</Text>
+                <Text style={styles.tituloCard}>O que é?</Text>
                 <Text style={styles.texto}>
-                    O aplicativo agora salva e consulta tarefas em uma Web API própria
-                    desenvolvida com ASP.NET Core e SQL Server.
+                    O StudyFlow é um aplicativo para organizar atividades acadêmicas.
+                    Nele, o estudante pode registrar tarefas, disciplinas e datas de
+                    entrega, além de acompanhar o que está pendente ou concluído.
                 </Text>
             </View>
 
             <View style={styles.card}>
-                <Text style={styles.tituloCard}>Operações da API</Text>
-                <Text style={styles.item}>GET • consultar tarefas</Text>
-                <Text style={styles.item}>POST • cadastrar uma tarefa</Text>
-                <Text style={styles.item}>PUT • editar ou concluir uma tarefa</Text>
-                <Text style={styles.item}>DELETE • excluir uma tarefa</Text>
+                <Text style={styles.tituloCard}>Principais recursos</Text>
+                <Text style={styles.item}>• cadastrar, editar e excluir tarefas;</Text>
+                <Text style={styles.item}>• marcar uma atividade como concluída;</Text>
+                <Text style={styles.item}>• reabrir uma tarefa concluída;</Text>
+                <Text style={styles.item}>• visualizar o resumo de tarefas;</Text>
+                <Text style={styles.item}>• manter os dados salvos após fechar o aplicativo.</Text>
             </View>
 
             <View style={styles.card}>
-                <Text style={styles.tituloCard}>Tratamentos da tela</Text>
-                <Text style={styles.item}>• carregamento dos dados;</Text>
-                <Text style={styles.item}>• lista recebida com sucesso;</Text>
-                <Text style={styles.item}>• resposta sem tarefas;</Text>
-                <Text style={styles.item}>• falha de comunicação ou do servidor.</Text>
+                <Text style={styles.tituloCard}>Tecnologias utilizadas</Text>
+                <Text style={styles.item}>• React Native e Expo na interface;</Text>
+                <Text style={styles.item}>• TypeScript e TSX no desenvolvimento;</Text>
+                <Text style={styles.item}>• ASP.NET Core na Web API;</Text>
+                <Text style={styles.item}>• Entity Framework Core e SQL Server nos dados.</Text>
             </View>
 
-            <Text style={styles.rodape}>Programação Mobile • 2026</Text>
+            <Text style={styles.rodape}>StudyFlow • Programação Mobile • 2026</Text>
         </ScrollView>
     );
 }

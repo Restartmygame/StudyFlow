@@ -24,6 +24,35 @@ type TarefasProps = {
     onRecarregar: () => Promise<boolean>;
 };
 
+function colocarMascaraNaData(texto: string) {
+    const numeros = texto.replace(/\D/g, '').slice(0, 8);
+
+    if (numeros.length <= 4) {
+        return numeros;
+    }
+
+    if (numeros.length <= 6) {
+        return `${numeros.slice(0, 4)}-${numeros.slice(4)}`;
+    }
+
+    return `${numeros.slice(0, 4)}-${numeros.slice(4, 6)}-${numeros.slice(6)}`;
+}
+
+function dataValida(data: string) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(data)) {
+        return false;
+    }
+
+    const [ano, mes, dia] = data.split('-').map(Number);
+    const dataConferida = new Date(ano, mes - 1, dia);
+
+    return (
+        dataConferida.getFullYear() === ano &&
+        dataConferida.getMonth() === mes - 1 &&
+        dataConferida.getDate() === dia
+    );
+}
+
 export default function Tarefas({
     tarefas,
     carregando,
@@ -65,8 +94,8 @@ export default function Tarefas({
             return;
         }
 
-        if (!/^\d{4}-\d{2}-\d{2}$/.test(dataEntrega)) {
-            setErroFormulario('Informe a data no formato AAAA-MM-DD.');
+        if (!dataValida(dataEntrega)) {
+            setErroFormulario('Informe uma data válida no formato AAAA-MM-DD.');
             return;
         }
 
@@ -149,25 +178,44 @@ export default function Tarefas({
                             <TextInput
                                 style={styles.input}
                                 placeholder="Ex.: Entregar trabalho"
+                                placeholderTextColor="#aab3c7"
                                 value={titulo}
-                                onChangeText={setTitulo}
+                                onChangeText={(texto) => {
+                                    setTitulo(texto);
+                                    setErroFormulario('');
+                                }}
+                                maxLength={100}
                             />
 
                             <Text style={styles.label}>Disciplina</Text>
                             <TextInput
                                 style={styles.input}
                                 placeholder="Ex.: Programação Mobile"
+                                placeholderTextColor="#aab3c7"
                                 value={disciplina}
-                                onChangeText={setDisciplina}
+                                onChangeText={(texto) => {
+                                    setDisciplina(texto);
+                                    setErroFormulario('');
+                                }}
+                                maxLength={60}
                             />
 
                             <Text style={styles.label}>Data de entrega</Text>
                             <TextInput
                                 style={styles.input}
-                                placeholder="Ex.: 2026-10-20"
+                                placeholder="AAAA-MM-DD"
+                                placeholderTextColor="#aab3c7"
                                 value={dataEntrega}
-                                onChangeText={setDataEntrega}
+                                onChangeText={(texto) => {
+                                    setDataEntrega(colocarMascaraNaData(texto));
+                                    setErroFormulario('');
+                                }}
+                                keyboardType="numeric"
+                                maxLength={10}
                             />
+                            <Text style={styles.dicaData}>
+                                Digite somente os números. Os hífens aparecem automaticamente.
+                            </Text>
 
                             {erroFormulario !== '' && (
                                 <Text style={styles.erroFormulario}>{erroFormulario}</Text>
@@ -307,7 +355,14 @@ const styles = StyleSheet.create({
         borderColor: '#b9c2d6',
         borderRadius: 8,
         padding: 12,
+        color: '#1d2a4a',
         fontSize: 16,
+    },
+
+    dicaData: {
+        color: '#7f899f',
+        fontSize: 13,
+        marginTop: 5,
     },
 
     erroFormulario: {
