@@ -2,6 +2,11 @@
 
 Projeto da disciplina de Desenvolvimento Mobile. Esta versão corresponde ao **Checkpoint 02** e possui um aplicativo React Native integrado à API própria do StudyFlow.
 
+## Informações do projeto
+
+- **Desenvolvido por:** Diego Santos Farias
+- **Data de entrega do Checkpoint 2:** 20/10/2026
+
 ## Tecnologias
 
 ### Aplicativo
