@@ -5,8 +5,13 @@ import Menu, { Tela } from './components/Menu';
 import Inicio from './screens/Inicio';
 import Tarefas from './screens/Tarefas';
 import Sobre from './screens/Sobre';
-import { Tarefa } from './models/Tarefa';
-import { buscarTarefas } from './services/tarefasApi';
+import { DadosTarefa, Tarefa } from './models/Tarefa';
+import {
+    atualizarTarefa,
+    buscarTarefas,
+    cadastrarTarefa,
+    excluirTarefa,
+} from './services/tarefasApi';
 
 export default function App() {
     const [telaAtual, setTelaAtual] = useState<Tela>('inicio');
@@ -14,28 +19,75 @@ export default function App() {
     const [carregando, setCarregando] = useState(true);
     const [erro, setErro] = useState('');
 
-    async function carregarTarefas() {
+    function mostrarErro(erroRecebido: unknown) {
+        if (erroRecebido instanceof Error) {
+            setErro(erroRecebido.message);
+        } else {
+            setErro('Ocorreu um erro inesperado.');
+        }
+    }
+
+    async function carregarTarefas(): Promise<boolean> {
         setCarregando(true);
         setErro('');
 
         try {
             const tarefasRecebidas = await buscarTarefas();
             setTarefas(tarefasRecebidas);
+            return true;
         } catch (erroRecebido) {
             setTarefas([]);
-
-            if (erroRecebido instanceof Error) {
-                setErro(erroRecebido.message);
-            } else {
-                setErro('Ocorreu um erro inesperado.');
-            }
+            mostrarErro(erroRecebido);
+            return false;
         } finally {
             setCarregando(false);
         }
     }
 
+    async function cadastrar(dados: DadosTarefa): Promise<boolean> {
+        setCarregando(true);
+        setErro('');
+
+        try {
+            await cadastrarTarefa(dados);
+            return await carregarTarefas();
+        } catch (erroRecebido) {
+            mostrarErro(erroRecebido);
+            setCarregando(false);
+            return false;
+        }
+    }
+
+    async function atualizar(tarefa: Tarefa): Promise<boolean> {
+        setCarregando(true);
+        setErro('');
+
+        try {
+            await atualizarTarefa(tarefa);
+            return await carregarTarefas();
+        } catch (erroRecebido) {
+            mostrarErro(erroRecebido);
+            setCarregando(false);
+            return false;
+        }
+    }
+
+    async function excluir(id: number): Promise<boolean> {
+        setCarregando(true);
+        setErro('');
+
+        try {
+            await excluirTarefa(id);
+            return await carregarTarefas();
+        } catch (erroRecebido) {
+            mostrarErro(erroRecebido);
+            setCarregando(false);
+            return false;
+        }
+    }
+
     useEffect(() => {
-        // busca as tarefas quando o aplicativo abre
+        // carrega os dados da API quando o aplicativo abre
         carregarTarefas();
     }, []);
 
@@ -58,6 +110,9 @@ export default function App() {
                         tarefas={tarefas}
                         carregando={carregando}
                         erro={erro}
+                        onCadastrar={cadastrar}
+                        onAtualizar={atualizar}
+                        onExcluir={excluir}
                         onRecarregar={carregarTarefas}
                     />
                 )}

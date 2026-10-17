@@ -9,17 +9,17 @@ export default function Sobre() {
             <View style={styles.card}>
                 <Text style={styles.tituloCard}>Evolução do StudyFlow</Text>
                 <Text style={styles.texto}>
-                    O aplicativo agora consulta tarefas pela internet, transforma a
-                    resposta JSON e mostra as informações nas telas.
+                    O aplicativo agora salva e consulta tarefas em uma Web API própria
+                    desenvolvida com ASP.NET Core e SQL Server.
                 </Text>
             </View>
 
             <View style={styles.card}>
-                <Text style={styles.tituloCard}>Web API utilizada</Text>
-                <Text style={styles.item}>Base: jsonplaceholder.typicode.com</Text>
-                <Text style={styles.item}>Recurso: /todos</Text>
-                <Text style={styles.item}>Método HTTP: GET</Text>
-                <Text style={styles.item}>Formato recebido: JSON</Text>
+                <Text style={styles.tituloCard}>Operações da API</Text>
+                <Text style={styles.item}>GET • consultar tarefas</Text>
+                <Text style={styles.item}>POST • cadastrar uma tarefa</Text>
+                <Text style={styles.item}>PUT • editar ou concluir uma tarefa</Text>
+                <Text style={styles.item}>DELETE • excluir uma tarefa</Text>
             </View>
 
             <View style={styles.card}>

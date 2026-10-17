@@ -1,19 +1,45 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Tarefa } from '../models/Tarefa';
 
 type CardTarefaProps = {
     tarefa: Tarefa;
+    onEditar: (tarefa: Tarefa) => void;
+    onAtualizar: (tarefa: Tarefa) => Promise<boolean>;
+    onExcluir: (id: number) => Promise<boolean>;
 };
 
-export default function CardTarefa({ tarefa }: CardTarefaProps) {
+export default function CardTarefa({
+    tarefa,
+    onEditar,
+    onAtualizar,
+    onExcluir,
+}: CardTarefaProps) {
+    function formatarData(data: string) {
+        const dataSemHorario = data.split('T')[0];
+        const partes = dataSemHorario.split('-');
+
+        if (partes.length !== 3) {
+            return data;
+        }
+
+        return `${partes[2]}/${partes[1]}/${partes[0]}`;
+    }
+
+    function alterarStatus() {
+        onAtualizar({
+            ...tarefa,
+            status: tarefa.status === 'Pendente' ? 'Concluida' : 'Pendente',
+        });
+    }
+
     return (
         <View style={styles.card}>
             <View style={styles.cabecalho}>
-                <Text style={styles.codigo}>Tarefa #{tarefa.id}</Text>
+                <Text style={styles.disciplina}>{tarefa.disciplina}</Text>
                 <View
                     style={[
                         styles.situacao,
-                        tarefa.concluida
+                        tarefa.status === 'Concluida'
                             ? styles.situacaoConcluida
                             : styles.situacaoPendente,
                     ]}
@@ -21,18 +47,36 @@ export default function CardTarefa({ tarefa }: CardTarefaProps) {
                     <Text
                         style={[
                             styles.textoSituacao,
-                            tarefa.concluida
+                            tarefa.status === 'Concluida'
                                 ? styles.textoConcluida
                                 : styles.textoPendente,
                         ]}
                     >
-                        {tarefa.concluida ? 'Concluída' : 'Pendente'}
+                        {tarefa.status === 'Concluida' ? 'Concluída' : 'Pendente'}
                     </Text>
                 </View>
             </View>
 
             <Text style={styles.titulo}>{tarefa.titulo}</Text>
-            <Text style={styles.usuario}>Usuário da API: {tarefa.usuarioId}</Text>
+            <Text style={styles.data}>
+                Entrega: {formatarData(tarefa.dataEntrega)}
+            </Text>
+
+            <View style={styles.acoes}>
+                <Pressable style={styles.botaoSecundario} onPress={() => onEditar(tarefa)}>
+                    <Text style={styles.textoSecundario}>Editar</Text>
+                </Pressable>
+
+                <Pressable style={styles.botaoStatus} onPress={alterarStatus}>
+                    <Text style={styles.textoStatus}>
+                        {tarefa.status === 'Concluida' ? 'Reabrir' : 'Concluir'}
+                    </Text>
+                </Pressable>
+
+                <Pressable style={styles.botaoExcluir} onPress={() => onExcluir(tarefa.id)}>
+                    <Text style={styles.textoExcluir}>Excluir</Text>
+                </Pressable>
+            </View>
         </View>
     );
 }
@@ -54,9 +98,10 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
 
-    codigo: {
+    disciplina: {
         color: '#65708a',
-        fontSize: 13,
+        flex: 1,
+        fontSize: 14,
         fontWeight: 'bold',
     },
 
@@ -89,14 +134,60 @@ const styles = StyleSheet.create({
 
     titulo: {
         color: '#1d2a4a',
-        fontSize: 17,
+        fontSize: 18,
         fontWeight: 'bold',
-        lineHeight: 23,
-        marginBottom: 9,
+        lineHeight: 24,
+        marginBottom: 7,
     },
 
-    usuario: {
+    data: {
         color: '#65708a',
         fontSize: 14,
+    },
+
+    acoes: {
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        flexWrap: 'wrap',
+        gap: 8,
+        marginTop: 15,
+    },
+
+    botaoSecundario: {
+        borderWidth: 1,
+        borderColor: '#3157d5',
+        borderRadius: 6,
+        paddingVertical: 7,
+        paddingHorizontal: 11,
+    },
+
+    textoSecundario: {
+        color: '#3157d5',
+        fontWeight: 'bold',
+    },
+
+    botaoStatus: {
+        backgroundColor: '#3157d5',
+        borderRadius: 6,
+        paddingVertical: 8,
+        paddingHorizontal: 11,
+    },
+
+    textoStatus: {
+        color: '#ffffff',
+        fontWeight: 'bold',
+    },
+
+    botaoExcluir: {
+        borderWidth: 1,
+        borderColor: '#c53c3c',
+        borderRadius: 6,
+        paddingVertical: 7,
+        paddingHorizontal: 11,
+    },
+
+    textoExcluir: {
+        color: '#c53c3c',
+        fontWeight: 'bold',
     },
 });
