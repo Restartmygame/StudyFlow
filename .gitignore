@@ -14,9 +14,3 @@ expo-env.d.ts
 # arquivos locais
 .env*.local
 
-# ASP.NET Core
-**/bin/
-**/obj/
-.vs/
-*.suo
-*.csproj.user

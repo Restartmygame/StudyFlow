@@ -1,6 +1,6 @@
 # StudyFlow
 
-Projeto da disciplina de Desenvolvimento Mobile. Esta versão corresponde ao **Checkpoint 02** e possui um aplicativo React Native integrado a uma Web API própria.
+Projeto da disciplina de Desenvolvimento Mobile. Esta versão corresponde ao **Checkpoint 02** e possui um aplicativo React Native integrado à API própria do StudyFlow.
 
 ## Tecnologias
 
@@ -10,13 +10,6 @@ Projeto da disciplina de Desenvolvimento Mobile. Esta versão corresponde ao **C
 - Expo;
 - TypeScript e TSX.
 
-### Web API
-
-- ASP.NET Core 8;
-- Entity Framework Core;
-- SQL Server;
-- Swagger.
-
 ## Funcionalidades
 
 - Navegação entre Início, Tarefas e Sobre;
@@ -24,47 +17,22 @@ Projeto da disciplina de Desenvolvimento Mobile. Esta versão corresponde ao **C
 - Consulta das tarefas com GET;
 - Edição e alteração de status com PUT;
 - Exclusão com DELETE;
-- Dados armazenados no banco `StudyFlowDB`;
+- Dados armazenados pela API no banco `StudyFlowDB`;
 - Estados de carregamento, sucesso, lista vazia e erro;
 - Comunicação com a API separada dos componentes visuais;
 - Layout organizado com Flexbox.
 
-## Preparar o banco de dados
+## API utilizada
 
-A conexão padrão está configurada para um SQL Server local:
+A Web API está em um projeto separado:
 
-```text
-Server=.;Database=StudyFlowDB;Trusted_Connection=True;TrustServerCertificate=True
-```
+<https://github.com/Restartmygame/StudyFlowAPI>
 
-Se o seu SQL Server utilizar a instância `SQLEXPRESS`, altere o início da conexão em `api/appsettings.json` para:
-
-```text
-Server=.\SQLEXPRESS
-```
-
-## Executar a API
-
-Abra o primeiro terminal na pasta do projeto:
-
-```cmd
-cd api
-dotnet restore
-dotnet tool install --global dotnet-ef --version 8.*
-dotnet ef database update
-dotnet run --launch-profile http
-```
-
-O comando de instalação do `dotnet-ef` só precisa ser executado uma vez. Se ele já estiver instalado, siga para o próximo comando.
-
-Com a API aberta, acesse:
-
-- Swagger: <http://localhost:5288/swagger>
-- Tarefas: <http://localhost:5288/api/tarefas>
+Antes de abrir o aplicativo, execute a API seguindo as instruções do repositório dela. O endereço esperado pelo aplicativo é `http://localhost:5288/api/tarefas`.
 
 ## Executar o aplicativo
 
-Mantenha a API funcionando e abra um segundo terminal na pasta principal:
+Mantenha a API funcionando e abra outro terminal na pasta do aplicativo:
 
 ```cmd
 npm install

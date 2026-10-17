@@ -16,7 +16,7 @@ O StudyFlow é um aplicativo de organização acadêmica. Ele permite cadastrar 
 
 No Checkpoint 01, as tarefas ficavam somente na memória do aplicativo. Ao fechar ou atualizar a página, as informações eram perdidas.
 
-No Checkpoint 02, foi criada a `StudyFlowAPI`, uma Web API própria desenvolvida com ASP.NET Core, Entity Framework Core e SQL Server. As funções do primeiro checkpoint foram mantidas e passaram a usar requisições HTTP. Também foram acrescentadas a edição e a alteração de status.
+No Checkpoint 02, foi criada a `StudyFlowAPI`, uma Web API própria desenvolvida em um projeto separado com ASP.NET Core, Entity Framework Core e SQL Server. As funções do primeiro checkpoint foram mantidas e passaram a usar requisições HTTP. Também foram acrescentadas a edição e a alteração de status.
 
 ## Navegação e transferência de dados
 
@@ -68,7 +68,7 @@ Exemplo de cadastro:
 }
 ```
 
-## Organização da API
+## Organização do projeto da API
 
 - `Controllers`: endpoints e respostas HTTP;
 - `DTO`: formatos usados no cadastro, na atualização e na resposta;
@@ -77,7 +77,7 @@ Exemplo de cadastro:
 - `Migrations`: criação da tabela no banco;
 - `Program.cs`: banco, Swagger, CORS e controllers.
 
-A organização foi baseada no exemplo desenvolvido em aula e mantida simples para facilitar a leitura.
+A API está no repositório separado `StudyFlowAPI`. Sua organização foi baseada no exemplo desenvolvido em aula e mantida simples para facilitar a leitura.
 
 ## Comunicação do aplicativo
 
@@ -109,6 +109,7 @@ Quando a API está vazia, o formulário continua disponível para o primeiro cad
 
 O Flexbox foi utilizado no menu inferior, nos cards de resumo, no cabeçalho das tarefas e na organização dos botões de cada card.
 
-## Repositório
+## Repositórios
 
-<https://github.com/Restartmygame/StudyFlow>
+- Aplicativo mobile: <https://github.com/Restartmygame/StudyFlow>
+- Web API: <https://github.com/Restartmygame/StudyFlowAPI>
